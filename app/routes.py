@@ -1,4 +1,4 @@
-from flask import render_template, redirect, flash
+from flask import render_template, redirect, flash, url_for
 from app import app, db
 from app.forms import RegisterForm, LoginForm
 from app.models import User
@@ -12,7 +12,7 @@ def index():
     return render_template('index.html', title=title)
 
 
-#register
+# register
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegisterForm()
@@ -28,7 +28,7 @@ def register():
     return render_template('register.html', form=form, title='Register')
 
 
-#login page
+# login page
 
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -48,6 +48,13 @@ def login():
             if check_password_hash(user.password_hash, form.password.data):
                 login_user(user)
                 flash('Logged in successfully.')
+                return redirect(url_for('dashboard'))
     return render_template('login.html', title='Login', form=form)
 
 
+# create dashboard page
+@app.route('/dashboard')
+@login_required
+def dashboard():
+    title = 'Dashboard'
+    return render_template('dashboard.html', title=title)
