@@ -1,10 +1,49 @@
 {% extends 'base.html' %}
 {% block content %}
+{% for message in get_flashed_messages() %}
 
-<form method="POST" action="/">
-    {{ form.hidden_tag() }}
-    {{ form.name.label }} {{ form.name(size=20) }}
-    <input type="submit" value="Go">
-</form>
+    <div class="alert alert-dark alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
 
+{% endfor %}
+
+
+{% if name %}
+    <h1>User {{ name }} added</h1>
+    <br><br>
+    <table class="table table-hover table-dark">
+
+
+    </table>
+
+{% else %}
+    <h1>Register</h1>
+    <p>you already have an account?</p>
+    <p><a href="{{ url_for('index') }}">login</a></p>
+    <div class="shadow p-3 mb-5 bg-body rounded">
+    <form method="POST">
+        {{ form.hidden_tag() }}
+
+        {{ form.username.label() }}<br>
+        {{ form.username() }}
+        <br>
+        {{ form.email.label() }}<br>
+        {{ form.email() }}
+        <br>
+        {{ form.password.label() }}<br>
+        {{ form.password() }}
+
+        <br>
+        {{ form.password_confirm.label() }}<br>
+        {{ form.password_confirm() }}
+
+
+        <br><br>
+        {{ form.submit(class="btn btn-success") }}
+    </form>
+    </div>
+
+{% endif %}
 {% endblock %}
