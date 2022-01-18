@@ -58,3 +58,11 @@ def login():
 def dashboard():
     title = 'Dashboard'
     return render_template('dashboard.html', title=title)
+
+
+# logout
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('index'))
