@@ -25,6 +25,9 @@
 
         {{ form.content.label(class="form-tabel") }}
         {{ form.content(class="form-control", rows="5") }}
+
+        {{ ckeditor.load() }}
+        {{ ckeditor.config(name='content') }}
         <br>
 
         {{ form.submit(class="btn btn-dark") }}

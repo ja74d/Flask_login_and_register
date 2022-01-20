@@ -1,7 +1,7 @@
 from flask import Flask
 from config import Config
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import LoginManager
+from flask_ckeditor import CKEditor
 from flask_migrate import Migrate
 
 
@@ -11,6 +11,7 @@ db = SQLAlchemy(app)
 
 migrate = Migrate(app, db)
 
+ckeditor = CKEditor(app)
 
 app.config.from_object(Config)
 
