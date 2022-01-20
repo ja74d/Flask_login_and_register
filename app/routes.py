@@ -1,7 +1,7 @@
 from flask import render_template, redirect, flash, url_for
 from app import app, db
-from app.forms import RegisterForm, LoginForm
-from app.models import User
+from app.forms import RegisterForm, LoginForm, PostForm
+from app.models import User, Post
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, current_user, logout_user, login_required, LoginManager
 
@@ -9,7 +9,8 @@ from flask_login import login_user, current_user, logout_user, login_required, L
 @app.route('/')
 def index():
     title = 'Home'
-    return render_template('index.html', title=title)
+    posts = Post.query.all()
+    return render_template('index.html', title=title, posts=posts)
 
 
 # register
@@ -66,3 +67,22 @@ def dashboard():
 def logout():
     logout_user()
     return redirect(url_for('index'))
+
+
+@app.route('/post', methods=['GET', 'POST'])
+@login_required
+def new_post():
+    form = PostForm()
+    if form.validate_on_submit():
+        i_post = Post(title=form.title.data, author=current_user.username, content=form.content.data)
+        db.session.add(i_post)
+        db.session.commit()
+        return redirect(url_for('index'))
+    return render_template('post.html', title='New Post', form=form)
+
+
+# see post
+@app.route('/post/<int:post_id>')
+def see_post(post_id):
+    post = Post.query.get_or_404(post_id)
+    return render_template('see_post.html', titel='post', post=post, post_id=post_id)

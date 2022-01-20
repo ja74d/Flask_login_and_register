@@ -14,3 +14,10 @@ class User(db.Model, UserMixin):
 
     def __repr__(self):
         return f'User {self.username}'
+
+
+class Post(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    author = db.Column(db.String(64))
+    title = db.Column(db.String(64))
+    content = db.Column(db.Text)
