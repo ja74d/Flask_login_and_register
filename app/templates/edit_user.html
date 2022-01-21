@@ -2,9 +2,9 @@
 {% block content %}
 
 
-    <h1>Register</h1>
-    <p>you already have an account?</p>
-    <p><a href="{{ url_for('login') }}">login</a></p>
+    <h1>Edit user...</h1>
+
+
     <div class="shadow p-3 mb-5 bg-body rounded">
     <form method="POST">
         {{ form.hidden_tag() }}
@@ -24,7 +24,7 @@
 
 
         <br><br>
-        {{ form.submit(class="btn btn-success") }}
+        {{ form.submit(class="btn btn-success") }} <a class="btn btn-danger" href="{{ url_for('dashboard') }}">Cancel</a>
     </form>
     </div>
 

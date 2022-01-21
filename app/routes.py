@@ -86,3 +86,23 @@ def new_post():
 def see_post(post_id):
     post = Post.query.get_or_404(post_id)
     return render_template('see_post.html', titel='post', post=post, post_id=post_id)
+
+
+# edit user
+@app.route('/edit_user/<int:user_id>', methods=['GET', 'POST'])
+def edit_user(user_id):
+    user = User.query.get_or_404(user_id)
+    form = RegisterForm()
+    if form.validate_on_submit():
+        user.username = form.username.data
+        user.email = form.email.data
+        user.password_hash = generate_password_hash(form.password.data, method='sha256')
+        username = form.username.data
+        db.session.commit()
+        return redirect(url_for('dashboard'))
+    else:
+        form.username.data = user.username
+        form.email.data = user.email
+        form.password.data = user.password_hash
+        form.password_confirm.data = user.password_hash
+    return render_template('edit_user.html', title='Edit User', form=form, user=user)
