@@ -85,7 +85,7 @@ def new_post():
 @app.route('/post/<int:post_id>')
 def see_post(post_id):
     post = Post.query.get_or_404(post_id)
-    return render_template('see_post.html', titel='post', post=post, post_id=post_id)
+    return render_template('see_post.html', titel='post', post=post)
 
 
 # edit user
@@ -106,3 +106,21 @@ def edit_user(user_id):
         form.password.data = user.password_hash
         form.password_confirm.data = user.password_hash
     return render_template('edit_user.html', title='Edit User', form=form, user=user)
+
+
+# delete post
+@app.route('/delete_post/<int:post_id>')
+@login_required
+def delete_post(post_id):
+    post = Post.query.get_or_404(post_id)
+    if current_user.username == post.author:
+        db.session.delete(post)
+        db.session.commit()
+        return redirect(url_for('index'))
+    elif current_user.username == "admin":
+        db.session.delete(post)
+        db.session.commit()
+        return redirect(url_for('index'))
+    else:
+        flash('You are not the author of this post.')
+        return redirect(url_for('see_post', post_id=post_id))
