@@ -1,1 +1,1 @@
-FLASK_ENV=develpment
+FLASK_ENV=development
