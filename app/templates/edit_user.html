@@ -22,6 +22,8 @@
         {{ form.password_confirm.label() }}<br>
         {{ form.password_confirm(class="form-control") }}
 
+        <br><br>
+        <a class="btn btn-danger" href="{{ url_for('delete_user', user_id=current_user.id) }}">delete user</a>
 
         <br><br>
         {{ form.submit(class="btn btn-success") }} <a class="btn btn-danger" href="{{ url_for('dashboard') }}">Cancel</a>

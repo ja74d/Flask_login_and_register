@@ -5,8 +5,12 @@
 
 <h1>Hi {{ current_user.username }}</h1>
 
-    <a class="btn btn-primary" href="{{ url_for('logout') }}">Logout</a>
+    
     <a class="btn btn-primary" href="{{ url_for('edit_user', user_id=current_user.id) }}">edit personal information</a>
+    
+    
+
+    <a class="btn btn-primary" href="{{ url_for('logout') }}">Logout</a>
 
 </center>
 

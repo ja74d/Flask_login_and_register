@@ -124,3 +124,19 @@ def delete_post(post_id):
     else:
         flash('You are not the author of this post.')
         return redirect(url_for('see_post', post_id=post_id))
+
+
+# delete user
+@app.route('/delete_user/<int:user_id>')
+def delete_user(user_id):
+    user = User.query.get_or_404(user_id)
+    if current_user.username == user.username:
+        db.session.delete(user)
+        db.session.commit()
+        flash('good bye')
+        return redirect(url_for('index'))
+    else:
+        flash("you cannot do that!")
+        return redirect(url_for('index'))
+
+
